@@ -1,20 +1,30 @@
-package top.yifanguo.spark
+package top.yifanguo.spark.treemodel
 
-import ml.dmlc.xgboost4j.scala.spark.XGBoostClassifier
+import org.apache.spark.ml.classification.DecisionTreeClassifier
+import top.yifanguo.spark.SparkUtil
 
-object XGBoost {
+object DecisionTree {
 
 	def main(args: Array[String]): Unit = {
+
 		val spark = SparkUtil.startSpark()
 		val data= SparkUtil.loadData(spark)
+
 		val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3))
+
 		// Train a DecisionTree model.
-		val dt = new XGBoostClassifier()
+		val dt = new DecisionTreeClassifier()
+  		.setMaxBins(32)
+  		.setMaxDepth(5)
+
 		val model = dt.fit(trainingData)
+
 		val train_predict = model.transform(trainingData)
 		val test_predict = model.transform(testData)
-		train_predict.show(1, false)
-		//SparkUtil.evaluate(train_predict,test_predict)
+
+
+		SparkUtil.evaluate(train_predict,test_predict)
+
 	}
 
 }
