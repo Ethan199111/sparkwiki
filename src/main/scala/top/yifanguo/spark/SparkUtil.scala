@@ -16,6 +16,10 @@ object SparkUtil {
 
 	}
 
+	def loadLibsvm(sparkSession: SparkSession) : DataFrame = {
+		sparkSession.read.format("libsvm").load("./data/libsvm")
+	}
+
 	def evaluate(trainPredict: DataFrame, testPredict: DataFrame): Unit = {
 		val evaluator = new BinaryClassificationEvaluator()
 			.setMetricName("areaUnderROC")

@@ -4,7 +4,6 @@ package top.yifanguo.spark
 //mapPartitions是map的一个变种。map的输入函数是应用于RDD中每个元素，
 // 而mapPartitions的输入函数是应用于每个分区，
 // 也就是把每个分区中的内容作为整体来处理的。
-
 object SparkRDDDemo {
 
 
