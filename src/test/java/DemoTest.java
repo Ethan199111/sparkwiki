@@ -7,7 +7,7 @@ import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.server.MiniYARNCluster;
 import org.junit.Before;
 import org.junit.Test;
-import yarn.test.DemoApplicationClient;
+import yarn.DemoApplicationClient;
 
 import java.io.IOException;
 

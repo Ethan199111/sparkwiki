@@ -34,6 +34,13 @@
             <version>0.80</version>
         </dependency>
 
+        <!-- breeze-->
+        <dependency>
+            <groupId>org.scalanlp</groupId>
+            <artifactId>breeze-viz_2.10</artifactId>
+            <version>0.3</version>
+        </dependency>
+
         <!-- spark -->
         <dependency>
             <groupId>org.apache.spark</groupId>
