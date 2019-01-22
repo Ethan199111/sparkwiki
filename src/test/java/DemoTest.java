@@ -32,7 +32,7 @@ public class DemoTest {
   @Test
   public void testClient() throws IOException, YarnException, InterruptedException {
     DemoApplicationClient client = new DemoApplicationClient(conf);
-    client.setAppMasterJar("/Users/yifanguo/Desktop/ControlCenter/SparkML/target/sparkML-1.0-SNAPSHOT.jar");
+    client.setAppMasterJar("/Users/yifanguo/Desktop/ControlCenter/SparkML/target/sparkML-1.0.jar");
     ApplicationId applicationId = client.submit();
     boolean outAccepted = false;
     boolean outTrackingUrl = false;

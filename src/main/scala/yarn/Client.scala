@@ -22,10 +22,7 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable
 
 class Client(conf: Configuration) {
-
 	private val log = LoggerFactory.getLogger(this.getClass)
-
-	// 创建一个yarnClient
 	private val yarnClient = YarnClient.createYarnClient
 	private val amMemory = 512
 	private val amCores = 1
@@ -34,6 +31,11 @@ class Client(conf: Configuration) {
 	private val amMain = classOf[ApplicationMaster].getName
 	private val amJar = ClassUtil.findContainingJar(classOf[ApplicationMaster])
 	private val fs = FileSystem.get(conf)
+	private var appMasterJar = ""
+
+	def setAppMasterJar(jar: String): Unit = {
+		appMasterJar = jar
+	}
 
 	private def ascSetResource(): Resource = {
 		val amResource = Records.newRecord(classOf[Resource])
@@ -161,11 +163,7 @@ class Client(conf: Configuration) {
 		null
 	}
 
-	private def copyLocalFilesToHdfs(
-																	fs: FileSystem,
-																	appId: String,
-																	srcFilePath: String
-																	): Path = {
+	private def copyLocalFilesToHdfs(fs: FileSystem, appId: String, srcFilePath: String): Path = {
 		// 本地路径
 		val src = new Path(srcFilePath)
 		// hdfs上路径
@@ -183,12 +181,7 @@ class Client(conf: Configuration) {
 		dst
 	}
 
-	private def toLocalResource(
-															 fs: FileSystem,
-															 appId: String,
-															 file: File
-														 ): LocalResource = {
-		// 那本地文件上传到hdfs上
+	private def toLocalResource(fs: FileSystem, appId: String, file: File): LocalResource = {
 		val hdfsFile = copyLocalFilesToHdfs(fs, appId, file.getPath)
 		val stat = fs.getFileStatus(hdfsFile)
 		val res = LocalResource.newInstance(

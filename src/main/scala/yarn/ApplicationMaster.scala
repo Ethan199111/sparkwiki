@@ -15,11 +15,9 @@ class ApplicationMaster {
 object ApplicationMaster {
 
 	def main(args: Array[String]): Unit = {
-
 		val conf = new YarnConfiguration
 		var isDebug = false
 		if (args.length >= 1 && args(0).equalsIgnoreCase("debug")) isDebug = true
-
 		if (isDebug) {
 			conf.set(YarnConfiguration.RM_ADDRESS, "localhost:8032")
 			conf.set(YarnConfiguration.RM_HOSTNAME, "localhost")
@@ -28,7 +26,6 @@ object ApplicationMaster {
 			conf.set(YarnConfiguration.RM_WEBAPP_ADDRESS, "localhost:8088")
 			conf.setBoolean(YarnConfiguration.YARN_MINICLUSTER_FIXED_PORTS, true)
 		}
-
 		val allocListener = new AMRMClientAsync.CallbackHandler {
 			override def onContainersCompleted(statuses: util.List[ContainerStatus]): Unit = ???
 			override def onContainersAllocated(containers: util.List[Container]): Unit = ???
@@ -37,11 +34,9 @@ object ApplicationMaster {
 			override def getProgress: Float = ???
 			override def onError(e: Throwable): Unit = ???
 		}
-
 		val rm = AMRMClientAsync.createAMRMClientAsync(1000, allocListener)
 		rm.init(conf)
 		rm.start()
-
 		val registration = rm.registerApplicationMaster(
 			"",
 			-1,
