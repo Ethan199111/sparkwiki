@@ -17,6 +17,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.zeromq</groupId>
+            <artifactId>jeromq</artifactId>
+            <version>0.4.3</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
@@ -32,13 +38,6 @@
             <groupId>ml.dmlc</groupId>
             <artifactId>xgboost4j</artifactId>
             <version>0.80</version>
-        </dependency>
-
-        <!-- breeze-->
-        <dependency>
-            <groupId>org.scalanlp</groupId>
-            <artifactId>breeze-viz_2.10</artifactId>
-            <version>0.3</version>
         </dependency>
 
         <!-- spark -->

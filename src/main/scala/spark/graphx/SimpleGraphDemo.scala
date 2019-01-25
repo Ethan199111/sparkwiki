@@ -9,7 +9,6 @@ object SimpleGraphDemo {
 	def main(args: Array[String]): Unit = {
 		val spark = SparkUtil.startSpark()
 		val sc = spark.sparkContext
-
 		// Create an RDD for the vertices
 		val users: RDD[(VertexId, (String, String))] =
 			sc.parallelize(Array((3L, ("rxin", "student")), (7L, ("jgonzal", "postdoc")),

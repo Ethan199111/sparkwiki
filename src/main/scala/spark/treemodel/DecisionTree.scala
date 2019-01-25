@@ -22,9 +22,7 @@ object DecisionTree {
 		val train_predict = model.transform(trainingData)
 		val test_predict = model.transform(testData)
 
-
 		SparkUtil.evaluate(train_predict,test_predict)
-
 	}
 
 }

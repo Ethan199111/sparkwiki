@@ -1,17 +1,12 @@
 package yarn
 
-import java.util
 
-import org.apache.hadoop.yarn.api.records.{Container, ContainerStatus, NodeReport}
-import org.apache.hadoop.yarn.client.api.async.AMRMClientAsync
-import org.apache.hadoop.yarn.conf.YarnConfiguration
-
-
-
+/*
 class ApplicationMaster {
 
 }
-
+*/
+/*
 object ApplicationMaster {
 
 	def main(args: Array[String]): Unit = {
@@ -51,3 +46,4 @@ object ApplicationMaster {
 		}
 	}
 }
+*/

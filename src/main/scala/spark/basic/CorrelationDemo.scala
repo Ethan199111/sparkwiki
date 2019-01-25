@@ -6,14 +6,9 @@ import org.apache.spark.sql.Row
 import spark.SparkUtil
 
 object CorrelationDemo {
-
 	def main(args: Array[String]): Unit = {
-
-
 		val spark = SparkUtil.startSpark()
-
 		import spark.implicits._
-
 		val data = Seq(
 			Vectors.sparse(4, Seq((0, 1.0), (3, -2.0))),
 			Vectors.dense(4.0, 5.0, 0.0, 3.0),
@@ -28,7 +23,5 @@ object CorrelationDemo {
 		val Row(coeff2: Matrix) = Correlation.corr(df, "features",
 			"spearman").head
 		println(s"Spearman correlation matrix:\n $coeff2")
-
 	}
-
 }
