@@ -11,11 +11,12 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <scala.binary.version>2.11</scala.binary.version>
-        <spark.version>2.4.0</spark.version>
+        <spark.version>2.3.2</spark.version>
         <scala.version>2.11.8</scala.version>
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.zeromq</groupId>
             <artifactId>jeromq</artifactId>

@@ -12,6 +12,7 @@ import yarn.DemoApplicationClient;
 import java.io.IOException;
 
 public class DemoTest {
+  /*
   private Configuration conf;
   
   @Before
@@ -61,4 +62,5 @@ public class DemoTest {
       Thread.sleep(1000);
     }
   }
+   */
 }
