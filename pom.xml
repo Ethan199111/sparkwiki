@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>top.yifanguo</groupId>
-    <artifactId>sparkML</artifactId>
+    <artifactId>sparkwiki</artifactId>
     <version>1.0.0</version>
 
     <properties>
@@ -16,6 +16,22 @@
     </properties>
 
     <dependencies>
+
+        <!-- fommil native -->
+        <dependency>
+            <groupId>com.github.fommil.netlib</groupId>
+            <artifactId>all</artifactId>
+            <version>1.1.2</version>
+            <type>pom</type>
+        </dependency>
+
+
+        <!-- jblas not a good library
+        <dependency>
+            <groupId>org.jblas</groupId>
+            <artifactId>jblas</artifactId>
+            <version>1.2.4</version>
+        </dependency> -->
 
         <dependency>
             <groupId>org.zeromq</groupId>

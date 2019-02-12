@@ -21,4 +21,11 @@ object BLAS extends Serializable {
 		f2jBLAS.ddot(n, x, 1, y, 1)
 	}
 
+
+	def main(args: Array[String]): Unit = {
+		val x = Array(1d,2,3)
+		val y = Array(1d,2,3)
+		val z = dot(x, y)
+		println(z)
+	}
 }
