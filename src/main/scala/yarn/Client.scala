@@ -45,6 +45,7 @@ class Client(conf: Configuration) {
 	}
 
 	def submitApplication() : ApplicationId = {
+
 		var appId: ApplicationId = null
 
 		// 初始化
@@ -66,6 +67,7 @@ class Client(conf: Configuration) {
 		// 3 启动AM
 		val clc = createContainerLaunchContext(newAppResponse)
 		val asc = newApp.getApplicationSubmissionContext
+
 		asc.setResource(ascSetResource())
 		asc.setAMContainerSpec(clc)
 
