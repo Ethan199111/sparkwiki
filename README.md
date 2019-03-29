@@ -1,16 +1,4 @@
-* [preface](#preface)
-* [references:](#references)
-  * [websites](#websites)
-  * [papers](#papers)
-* [spark overview](#spark-overview)
-  * [what is spark?](#what-is-spark)
-  * [spark architecture](#spark-architecture)
-  * [spark install](#spark-install)
-* [spark basic](#spark-basic)
-  * [deal with text file](#deal-with-text-file)
-     * [top n words](#top-n-words)
-  * [transformation vs action](#transformation-vs-action)
-* [Resilient Distributed Datasets](#resilient-distributed-datasets)
+[toc]
 
 ![](./img/spark_tag.png)
 
@@ -23,20 +11,6 @@ _lighting-fast unified analytics engine_
 这个github将包含一系列用scala编写的demo, 数据集, spark的使用心得和踩坑，以及架构解释。如有错误，欢迎指正。和机器学习相关的特征预处理，模型训练，模型预测等模块会单独放到另一个github里来总结
 
 GitHub地址： https://github.com/Esail/sparkwiki
-
-# references:
-
-## websites
-
-[1] https://spark.apache.org/ (不用多说，官网是最好的文档，实践是最好的老师，源码是最佳的解释）
-
-[2] https://www.cnblogs.com/qingyunzong/p/8886338.html (非常好的个人总结）
-
-[3] https://www.jianshu.com/p/a2c2fe4371ea (hadoop3.0 new features)
-
-## papers
-
-[1] Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing (了解spark的诞生过程）
 
 
 
@@ -271,12 +245,9 @@ spark的操作主要分为transformation和action. 顾名思义，transformation
 
 具体每个的执行可以参考 operators这个目录。正是有了这些强大的算子，spark才会如此强大
 
-## 
+## shuffle operations
 
-
-
-
-
+shuffle顾名思义，洗牌，会重新分配数据(re-distribute data)，这样整体数据分布会发生变化(grouped differently across partitions)。 这个操作会造成数据在workers之间拷贝和传输(it involves disk I/O, data serialization, and network I/O)，是一个非常重的操作。实际使用中，我们应该尽量避免无必要的shuffle.
 
 
 
@@ -289,5 +260,31 @@ spark的操作主要分为transformation和action. 顾名思义，transformation
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+# references:
+
+## websites
+
+[1] https://spark.apache.org/ (不用多说，官网是最好的文档，实践是最好的老师，源码是最佳的解释）
+
+[2] https://www.cnblogs.com/qingyunzong/p/8886338.html (非常好的个人总结）
+
+[3] https://www.jianshu.com/p/a2c2fe4371ea (hadoop3.0 new features)
+
+## papers
+
+[1] Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing (了解spark的诞生过程）
 
 
