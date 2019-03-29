@@ -236,7 +236,7 @@ object WordCountDemo extends App {
 
 
 
-## spark operation
+## transformation vs action
 spark的操作主要分为transformation和action. 顾名思义，transformation只是做了变换，但并未真正执行。action操作时才会真正触发执行操作。action操作甚至支持异步的方式，这样执行不会阻塞
 
 
@@ -247,8 +247,18 @@ spark的操作主要分为transformation和action. 顾名思义，transformation
 * flatMap(func):  压平操作，func这里返回的是seq而非单个item
 * intersection: 交集操作
 * groupByKey 聚集操作
-* distinct 
+* distinct 返回一个新的rdd包含去重后的元素
 
+常见的actions有：
+
+* reduce(func): 聚合元素
+* collect(): Return all the elements of the dataset as an array at the driver program. This is usually useful after a filter or other operation that returns a sufficiently small subset of the data
+* count(): 统计个数
+* saveAsTextFile: 把rdd的elements写到hdfs或其他文件系统
+
+具体每个的执行可以参考 operators这个目录。正是有了这些强大的算子，spark才会日渐流行
+
+## 
 
 
 
@@ -259,7 +269,7 @@ spark的操作主要分为transformation和action. 顾名思义，transformation
 
 # Resilient Distributed Datasets
 
-从这里开始我们会进入spark的核心部分，我强烈建议读者优先阅读一遍官网的说明，并运行官网的spark examples.否则会看的很头疼
+从这里开始我们会进入spark的核心部分，我强烈建议读者优先阅读官网的例子和github上一些基本操作.否则会看的很头疼
 
 
 
