@@ -10,7 +10,7 @@ _lighting-fast unified analytics engine_
 
 这个github将包含一系列用scala编写的demo, 数据集, spark的使用心得和踩坑，以及架构解释。如有错误，欢迎指正。和机器学习相关的特征预处理，模型训练，模型预测等模块会单独放到另一个github里来总结
 
-GitHub地址： https://github.com/Esail/sparkwiki
+GitHub地址： [https://github.com/Esail/sparkwiki](https://github.com/Esail/sparkwiki)
 
 
 
@@ -256,19 +256,141 @@ shuffle顾名思义，洗牌，会重新分配数据(re-distribute data)，这�
 从这里开始我们会进入spark的核心部分，我强烈建议读者优先阅读官网的例子和github上一些基本操作.否则会看的很头疼
 
 
+## what is rdd?
+用paper中的表述就是，a distributed memory abstraction that lets programmers perform in-memory computations on large clusters in a fault-tolerant manner.
+展开来说rdd即弹性数据集是：
+
+* 一种数据抽象
+* 用来在集群上进行基于内存的计算
+* 不可变，可分区，里面的元素可并行计算
+* 具备自动容错，位置感知性调度，可伸缩性等特点
+
+![](./img/rdd.png)
 
 
+我们看这个图来通俗理解rdd是什么，假设我们有8个单词需要操作，我开了4个分片(partition)，然后将这8个单词均分到4个分片上，最后每个节点上拥有两个分片。rdd就是整个分片的集合以及操作的抽象层（可以重点看下BlockPartition和BlockRDD这两个关系）
 
 
+## rdd attributes
+
+### partitions
+rdd 拥有一组分片(partitions)，分片是rdd的基本组成单元。每个分片都会被分配一个计算任务(task)来处理。用户可以在创建rdd的时候制定rdd的分片个数，如果没有制定，将采用默认值。
 
 
+### compute
+
+```
+ /**
+   * :: DeveloperApi ::
+   * Implemented by subclasses to compute a given partition.
+   */
+  @DeveloperApi
+  def compute(split: Partition, context: TaskContext): Iterator[T]
+```
+用来在分片上执行计算，每个rdd的具体实现都要实现compute函数
+
+### dependency
+
+```
+abstract class RDD[T: ClassTag](
+    @transient private var _sc: SparkContext,
+    @transient private var deps: Seq[Dependency[_]]
+  ) extends Serializable with Logging {
+```
+rdd之间的依赖关系。rdd每次transform都会生成一个新的rdd,所以rdd之间就形成了依赖关系。如果部分分片数据丢失，spark可以通过这个依赖关系重新计算丢失分片数据，而不是对rdd的所有分片重新计算
 
 
+### Partitioner
+rdd的分片函数。一般用的有HashParitioner和RangePartitioner. 
 
 
+### table
+一个列表，存储存取每个Partition的优先位置（preferred location）。对于一个HDFS文件来说，这个列表保存的就是每个Partition所在的块的位置。按照“移动数据不如移动计算”的理念，Spark在进行任务调度的时候，会尽可能地将计算任务分配到其所要处理数据块的存储位置
 
 
+## word count in picture
 
+下图生动的表明了word count是如何在rdd之间传递的
+
+![](./img/word_cnt.png)
+![](./img/word_cnt2.png)
+
+
+## wide dependency vs narrow dependency
+
+宽依赖和宅依赖
+
+简单来说窄依赖就是独生子女，又叫OneToOne dependency
+
+```
+/**
+ * :: DeveloperApi ::
+ * Base class for dependencies where each partition of the child RDD depends on a small number
+ * of partitions of the parent RDD. Narrow dependencies allow for pipelined execution.
+ */
+@DeveloperApi
+abstract class NarrowDependency[T](_rdd: RDD[T]) extends Dependency[T] {
+  /**
+   * Get the parent partitions for a child partition.
+   * @param partitionId a partition of the child RDD
+   * @return the partitions of the parent RDD that the child partition depends upon
+   */
+  def getParents(partitionId: Int): Seq[Int]
+
+  override def rdd: RDD[T] = _rdd
+}
+```
+
+代码如上图所示，宅依赖都会有一个getParents的method，由于是一对一的，这样恢复时只需要拿到其parent分区就可以。
+
+
+宽依赖，又叫shuffle dependency
+
+```
+/**
+ * :: DeveloperApi ::
+ * Represents a dependency on the output of a shuffle stage. Note that in the case of shuffle,
+ * the RDD is transient since we don't need it on the executor side.
+ *
+ * @param _rdd the parent RDD
+ * @param partitioner partitioner used to partition the shuffle output
+ * @param serializer [[org.apache.spark.serializer.Serializer Serializer]] to use. If not set
+ *                   explicitly then the default serializer, as specified by `spark.serializer`
+ *                   config option, will be used.
+ * @param keyOrdering key ordering for RDD's shuffles
+ * @param aggregator map/reduce-side aggregator for RDD's shuffle
+ * @param mapSideCombine whether to perform partial aggregation (also known as map-side combine)
+ */
+@DeveloperApi
+class ShuffleDependency[K: ClassTag, V: ClassTag, C: ClassTag](
+    @transient private val _rdd: RDD[_ <: Product2[K, V]],
+    val partitioner: Partitioner,
+    val serializer: Serializer = SparkEnv.get.serializer,
+    val keyOrdering: Option[Ordering[K]] = None,
+    val aggregator: Option[Aggregator[K, V, C]] = None,
+    val mapSideCombine: Boolean = false)
+  extends Dependency[Product2[K, V]] {
+```
+
+很明显宽依赖要触发一次shuffle操作，其恢复是异常复杂的，下图中map,filter都属于宅依赖，而groupbyKey等都属于宽依赖
+
+![](./img/dependency.png)
+
+## DAG
+
+![](./img/stage.png)
+
+
+spark会根据rdd之间的依赖关系构建DAG（有向无环图）。而DAG具体会划分为不同的stage. 根据上图所示，由于宅依赖是一对一的，partition的转换处理可以在同一个线程里完成，宅依赖就被spark划分到同一个stage中。而对于宽依赖，只能等parenetRDD shuffle处理完成后，下一个stage才能开始计算
+
+因此spark划分stage的整体思路是：从后往前推，遇到宽依赖就断开，划分为一个stage；遇到窄依赖就将这个RDD加入该stage中。因此在图2中RDD C,RDD D,RDD E,RDDF被构建在一个stage中,RDD A被构建在一个单独的Stage中,而RDD B和RDD G又被构建在同一个stage中。
+
+
+## ShuffleMapTask vs ResultTask
+
+在spark中，Task的类型分为2种：ShuffleMapTask和ResultTask；
+
+简单来说，DAG的最后一个阶段会为每个结果的partition生成一个ResultTask，即每个Stage里面的Task的数量是由该Stage中最后一个RDD的Partition的数量所决定的！而其余所有阶段都会生成ShuffleMapTask；之所以称之为ShuffleMapTask是因为它需要将自己的计算结果通过shuffle到下一个stage中；也就是说上图中的stage1和stage2相当于mapreduce中的Mapper,而ResultTask所代表的stage3就相当于mapreduce中的reducer.
 
 
 
