@@ -2,3 +2,4 @@
 .idea/
 target/
 spark-warehouse
+*.iml
