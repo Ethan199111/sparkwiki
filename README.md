@@ -44,7 +44,7 @@ spark官方给出的说明是，spark是一个**高效(light-fast)，统一(unif
 
 ## spark architecture
 
-这里简单的讲一下spark的结构，我们后面还会结合hadoop-yarn来具体讲一下。推荐所有人读Matei的__Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing__ 详细了解下spark的核心思想RDD的设计和实现
+这里简单的讲一下spark的结构，我们后面还会结合hadoop-yarn来具体讲一下。推荐所有人读Matei的**Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing**详细了解下spark的核心思想RDD的设计和实现
 
 
 ![](./img/driver.png)
