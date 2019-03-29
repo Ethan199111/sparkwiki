@@ -38,6 +38,7 @@ spark官方给出的说明是，spark是一个**高效(light-fast)，统一(unif
 * 分析引擎 spark是分析引擎，意味着它不负责数据的采集和数据的储存，你还需要依赖hdfs,hbase,cassandra来作为数据的储存介质，通过kafka,rabbitMQ等来收集日志。
 
 下图展示了spark的组成：
+
 ![](./img/what_is_spark.png)
 
 
@@ -256,7 +257,7 @@ spark的操作主要分为transformation和action. 顾名思义，transformation
 * count(): 统计个数
 * saveAsTextFile: 把rdd的elements写到hdfs或其他文件系统
 
-具体每个的执行可以参考 operators这个目录。正是有了这些强大的算子，spark才会日渐流行
+具体每个的执行可以参考 operators这个目录。正是有了这些强大的算子，spark才会如此强大
 
 ## 
 
