@@ -1,7 +1,6 @@
-package spark.basic
+package spark
 
 import org.apache.spark.ml.linalg.Vectors
-import spark.SparkUtil
 
 object Summarizer {
 

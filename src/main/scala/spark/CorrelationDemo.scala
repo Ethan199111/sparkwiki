@@ -1,9 +1,8 @@
-package spark.basic
+package spark
 
 import org.apache.spark.ml.linalg.{Matrix, Vectors}
 import org.apache.spark.ml.stat.Correlation
 import org.apache.spark.sql.Row
-import spark.SparkUtil
 
 object CorrelationDemo {
 	def main(args: Array[String]): Unit = {

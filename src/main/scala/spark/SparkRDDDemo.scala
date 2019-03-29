@@ -30,15 +30,19 @@ object SparkRDDDemo {
 
 		val testRDD = spark.sparkContext.parallelize(testData).repartition(2).toDF()
 
+		testRDD.persist()
+
 		val a = spark.sparkContext.parallelize(1 to 9, 3)
 
 		a.foreach(println(_))
 
 		val res = a.mapPartitions(doubleFunc)
 
+
 		res.foreach(println(_))
 
 		val s = a.reduce((x, y) => x)
+
 		println(s)
 	}
 
