@@ -11,124 +11,32 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <scala.binary.version>2.11</scala.binary.version>
-        <spark.version>2.3.2</spark.version>
+        <spark.version>2.4.0</spark.version>
         <scala.version>2.11.8</scala.version>
     </properties>
 
     <dependencies>
-
-        <!-- fommil native -->
-        <dependency>
-            <groupId>com.github.fommil.netlib</groupId>
-            <artifactId>all</artifactId>
-            <version>1.1.2</version>
-            <type>pom</type>
-        </dependency>
-
-
-        <!-- jblas not a good library
-        <dependency>
-            <groupId>org.jblas</groupId>
-            <artifactId>jblas</artifactId>
-            <version>1.2.4</version>
-        </dependency> -->
-
-        <dependency>
-            <groupId>org.zeromq</groupId>
-            <artifactId>jeromq</artifactId>
-            <version>0.4.3</version>
-        </dependency>
-
+        <!-- scala -->
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
         </dependency>
-        <!-- xgboost -->
-        <dependency>
-            <groupId>ml.dmlc</groupId>
-            <artifactId>xgboost4j-spark</artifactId>
-            <version>0.80</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/ml.dmlc/xgboost4j -->
-        <dependency>
-            <groupId>ml.dmlc</groupId>
-            <artifactId>xgboost4j</artifactId>
-            <version>0.80</version>
-        </dependency>
-
         <!-- spark -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-mllib_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
-        </dependency>
-
-        <!-- hadoop minicluster -->
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-minicluster</artifactId>
-            <version>2.7.3</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.ansj</groupId>
-            <artifactId>ansj_seg</artifactId>
-            <version>5.1.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-actor_2.11</artifactId>
-            <version>2.5.17</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-remote_2.11</artifactId>
-            <version>2.5.17</version>
-        </dependency>
-
-        <!-- test -->
-        <dependency>
-            <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_${scala.binary.version}</artifactId>
-            <version>3.0.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-actors</artifactId>
-            <version>2.11.12</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-testkit_2.11</artifactId>
-            <version>2.5.17</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -146,7 +54,6 @@
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>

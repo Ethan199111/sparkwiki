@@ -18,3 +18,8 @@ spark问题总结 https://zhuanlan.zhihu.com/p/49169166
 
 https://zhuanlan.zhihu.com/p/49185277
 https://zhuanlan.zhihu.com/p/51011021
+
+# spark on yarn
+
+https://marsishandsome.github.io/2018/03/Spark_on_Yarn%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90
+
