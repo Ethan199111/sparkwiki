@@ -393,6 +393,58 @@ spark会根据rdd之间的依赖关系构建DAG（有向无环图）。而DAG具
 简单来说，DAG的最后一个阶段会为每个结果的partition生成一个ResultTask，即每个Stage里面的Task的数量是由该Stage中最后一个RDD的Partition的数量所决定的！而其余所有阶段都会生成ShuffleMapTask；之所以称之为ShuffleMapTask是因为它需要将自己的计算结果通过shuffle到下一个stage中；也就是说上图中的stage1和stage2相当于mapreduce中的Mapper,而ResultTask所代表的stage3就相当于mapreduce中的reducer.
 
 
+# advanced spark
+
+## opeartion
+### broadcast
+### accumulators
+## sparkcontext
+## blockmanager
+## netty in spark
+## DAG Scheduler
+## LauncherBackend
+
+
+
+# how spark run
+
+
+# tuning spark
+spark 调优是理论结合实践的产物，是用好spark最好的参考
+
+
+# spark sql
+
+
+# spark memory management
+spark对内存的管理
+
+# spark tricks
+这一章讲一些spark的小技巧
+
+
+# spark on yarn
+这一章讲hadoop yarn如何工作，以及spark如何在yarn上运行的
+
+
+# spark streaming
+这一章讲spark如何进行实时计算
+
+
+# spark graphx
+spark如何进行图计算
+
+# extra spark
+一些spark番外篇
+
+# spark applications
+spark应用
+
+# advanced scala
+scala高级语法篇
+
+# spark machine learning
+移步 spark-ml
 
 
 # references:
