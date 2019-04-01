@@ -7,7 +7,11 @@ object SparkUtil {
 
 	// start a spark session
 	def startSpark(): SparkSession = {
-		SparkSession.builder().master("local[*]").getOrCreate()
+		SparkSession.builder()
+			.master("local[*]")
+			.config("spark.sql.warehouse.dir", "/tmp/spark-warehouse")
+  		.appName("sparkwiki")
+			.getOrCreate()
 	}
 
 	// load data
