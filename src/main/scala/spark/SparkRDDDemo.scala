@@ -44,6 +44,11 @@ object SparkRDDDemo {
 		val s = a.reduce((x, y) => x)
 
 		println(s)
+
+		spark.sparkContext.stop()
+
+
+
 	}
 
 }
